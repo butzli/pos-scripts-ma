@@ -41,3 +41,4 @@ The run scripts use fixed test SAs (SPI 1000 + i, one well-known key). Two switc
 | `tab-esp-send-rate.sh` | Table 4, `tab:esp-send-rate` | 6.3 | ESP send rate by number of cores and packet size |
 | `tab-loss-by-rate.sh` | Table 5, `tab:loss-by-rate` | 6.3 | highest rate without loss, one direction and bidirectional |
 | `tab-sa-queue-distribution.sh` | Table 6, `tab:sa-queue-distribution` | 6.3 | SAs assigned by RSS and by flow rules |
+| `tab-interop.sh` | Table 7, `tab:interop` | 6.3 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
