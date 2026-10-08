@@ -1,9 +1,11 @@
 #!/bin/bash
-# usage: trxq.sh TXCORES RXCORES RATE-MPPS [SECS] [SIZE] [EXTRA-ARGS-BOTH]
+# usage: [IKE=1] trxq.sh TXCORES RXCORES RATE-MPPS [SECS] [SIZE] [EXTRA-ARGS-BOTH]
 # One bidirectional ipsec-transceiver run pact port 1 <-> stoi port 1; appends one result line to ~/diag/fcoff.csv
 cd ~/pos-scripts
 T=$1; R=$2; RATE=$3; D=${4:-10}; S=${5:-60}; X="${*:6}"
 OUT=${OUT:-~/diag/fcoff.csv}
+# IKE=1: SAs negotiated by strongSwan (ike/ike-up.sh) instead of the fixed test SAs
+[ -z "$IKE" ] || { bash ike/ike-up.sh $T; X="$X --sa-file /root/sas.txt"; }
 mk() { { echo '#!/bin/bash'; echo "T=$T; R=$R; RATE=$RATE; D=$D; S=$S; LOCAL=$2; REMOTE=$3; X='$X'"; cat trxnode-body.sh; } > $1; }
 mk trxq-pact.sh 192.168.0.1 192.168.1.1
 mk trxq-stoi.sh 192.168.1.1 192.168.0.1

@@ -9,9 +9,29 @@ They target the nodes `pact` and `stoi`. Copy the folder to `~/pos-scripts` on t
 | `setup/node-setup-cx7.sh` | per-node part of the setup (called by the script above) |
 | `setup/state.sh` | show a node's state: `./prun.sh pact setup/state.sh` |
 | `prun.sh NODE FILE` | run a script file on a node and print its output |
-| `ipsec.sh`, `cleartext.sh` | one run `pact` → `stoi`, with and without ESP |
+| `ipsec.sh`, `cleartext.sh` | one run in one direction, `pact` → `stoi`, with and without ESP |
 | `trxq.sh` | one bidirectional run, one result line with the loss per node (`trxnode-body.sh` is its part that runs on the node) |
+| `ike/` | key exchange by IKEv2 (strongSwan) instead of the fixed test SAs, see below |
+| `interop/` | tests against the IPsec implementation of the Linux kernel, see below |
 | `ma-messreihen/` | measurement series behind the tables of the thesis |
+
+The run scripts use fixed test SAs (SPI 1000 + i, one well-known key). Two switches change that, for `ipsec.sh`, `trxq.sh` and the tests in `interop/` alike:
+
+| Switch | Effect |
+|---|---|
+| `IKE=1` in front of the call | the SAs are negotiated by strongSwan before the run (`ike/ike-up.sh`), always with extended sequence numbers (ESN) |
+| `--esn` as extra argument (`ESN=1` for `interop/`) | the fixed test SAs with ESN |
+
+| Script in `ike/` | Purpose |
+|---|---|
+| `ike-up.sh [TUNNELS]` | start strongSwan on both nodes, negotiate the tunnels, write the SAs to `/root/sas.txt` on both nodes (used with `--sa-file`), stop strongSwan; `KEEP=1` leaves it running for a peer that holds the SAs itself |
+| `ike-down.sh` | stop strongSwan on both nodes |
+| `ike-setup.sh`, `ike-sa-file.sh` | per-node parts: strongSwan configuration, export of the negotiated SAs |
+
+| Script in `interop/` | Purpose |
+|---|---|
+| `kernel-rx.sh` | `ipsec-gen` on `pact` → the kernel of `stoi` decrypts (`kernel-rx-setup.sh`, `udp-count.py` run on `stoi`) |
+| `kernel-tx.sh` | the kernel of `stoi` encrypts → `ipsec-sink` on `pact` (`kernel-tx-setup.sh`, `udp-send.py` run on `stoi`) |
 
 | Script in `ma-messreihen/` | Table in the thesis | Section | Content |
 |---|---|---|---|
