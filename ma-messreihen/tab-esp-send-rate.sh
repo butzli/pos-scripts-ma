@@ -1,5 +1,6 @@
 #!/bin/bash
-# Send rate of the IPsec generator without a rate limit, by number of cores and by packet size:
+# Reproduces Table "tab:esp-send-rate" (Section 6.3): send rate of the IPsec generator without a rate limit,
+# by number of cores and by packet size:
 # ipsec-gen on pact -> ipsec-sink on stoi with as many receive queues as transmit cores, tunnel mode, AES-256-GCM,
 # 8 s per run, flow control and transparent huge pages off (standard setup).
 # The data rate is that on the link: ESP frame + 4 bytes CRC + 20 bytes preamble and inter-frame gap.

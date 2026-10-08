@@ -1,5 +1,5 @@
 #!/bin/bash
-# Loss of the measurement chain by offered rate: IPsec, tunnel mode, AES-256-GCM, 60-byte inner packets,
+# Reproduces Table "tab:loss-by-rate" (Section 6.3): loss of the measurement chain by offered rate, IPsec, tunnel mode, AES-256-GCM, 60-byte inner packets,
 # flow control and transparent huge pages off (standard setup).
 #   tab-loss-by-rate.sh uni  TXCORES RXCORES "RATES" [SECS] ["GEN-ARGS"]   ipsec-gen on pact -> ipsec-sink on stoi
 #   tab-loss-by-rate.sh bidi TXCORES RXCORES "RATES" [SECS] ["ARGS"]       ipsec-transceiver on both nodes, RATE per direction

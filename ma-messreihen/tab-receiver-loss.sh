@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces Table "tab:receiver-loss": packets lost in the receiver, by setup measure.
+# Reproduces Table "tab:receiver-loss" (Section 5.3): packets lost in the receiver, by setup measure.
 # pact -> stoi, 60-byte packets, 30 s, two runs each, flow control off: IPsec with 8 SAs at 40 Mpps and cleartext
 # with 4 flows at 20 Mpps, i.e. 5 Mpps per receive queue. The loss is the number of packets sent minus the number
 # decrypted (IPsec) or received in sequence (cleartext).

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces Table "tab:rx-path": rate at which stoi decrypts, by receive configuration.
+# Reproduces Table "tab:rx-path" (Section 5.3): rate at which stoi decrypts, by receive configuration.
 # ipsec-gen on pact without a rate limit -> ipsec-sink on stoi, 8, 16 and 30 SAs with one receive queue each,
 # tunnel mode, AES-256-GCM, 60-byte inner packets, 8 s, flow control off. The sender offers more than the receiver
 # can process; the decrypted rate is the send rate times the share of the packets sent that was decrypted.
