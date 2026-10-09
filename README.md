@@ -37,8 +37,8 @@ The run scripts use fixed test SAs (SPI 1000 + i, one well-known key). Two switc
 |---|---|---|---|
 | `tab-receiver-loss.sh` | Table 1, `tab:receiver-loss` | 5.3 | receiver loss by setup measure |
 | `tab-rx-path.sh` | Table 2, `tab:rx-path` | 5.3 | decrypted rate by receive configuration |
-| `tab-sender-scaling.sh` | Table 3, `tab:sender-scaling` | 6.3 | send rate by number of cores, no encryption |
-| `tab-esp-send-rate.sh` | Table 4, `tab:esp-send-rate` | 6.3 | ESP send rate by number of cores and packet size |
-| `tab-loss-by-rate.sh` | Table 5, `tab:loss-by-rate` | 6.3 | highest rate without loss, one direction and bidirectional |
-| `tab-sa-queue-distribution.sh` | Table 6, `tab:sa-queue-distribution` | 6.3 | SAs assigned by RSS and by flow rules |
-| `tab-interop.sh` | Table 7, `tab:interop` | 6.3 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
+| `tab-interop.sh` | Table 3, `tab:interop` | 6.1 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
+| `tab-sender-scaling.sh` | Table 7, `tab:sender-scaling` (Figure 7) | 6.1, data in A.4 | send rate by number of cores, no encryption |
+| `tab-esp-send-rate.sh` | Table 8, `tab:esp-send-rate` (Figures 7 and 8) | 6.1, data in A.4 | ESP send rate by number of cores and packet size |
+| `tab-loss-by-rate.sh` | Table 4, `tab:loss-by-rate` | 6.1 | highest rate without loss, one direction and bidirectional |
+| `tab-sa-queue-distribution.sh` | Table 5, `tab:sa-queue-distribution` | 6.1 | SAs assigned by RSS and by flow rules |

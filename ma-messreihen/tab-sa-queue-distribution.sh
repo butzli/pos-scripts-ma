@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces Table "tab:sa-queue-distribution" (Section 6.3): assignment of SAs to receive queues by RSS
+# Reproduces Table "tab:sa-queue-distribution" (Section 6.1): assignment of SAs to receive queues by RSS
 # and by one flow rule per SPI. pact -> stoi, tunnel mode, AES-256-GCM, 60-byte inner packets, 30 s.
 # The sender is limited to a fixed rate per SA, so that both assignments are offered the same load:
 # 7 Mpps per SA, and 3 Mpps per SA with 16 SAs (two SAs then fit on one receive queue).

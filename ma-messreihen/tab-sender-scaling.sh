@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces Table "tab:sender-scaling" (Section 6.3): send rate of pact by number of cores.
+# Reproduces Table "tab:sender-scaling" (Section 6.1): send rate of pact by number of cores.
 # Flow udp-load via moongen-simple, 5 s per run, flow control off (standard setup), no DPDK receiver on stoi;
 # "arrived" is the difference of the hardware counter rx_packets_phy of stoi. Small frames use a copy of the
 # flow with a wide range of UDP ports (flows-rss), large frames the same with pktLength = 1496 (flows-big).

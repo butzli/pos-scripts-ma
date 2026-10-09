@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reproduces Table "tab:interop" (Section 6.3): the generator and the receiver against the IPsec implementation of
+# Reproduces Table "tab:interop" (Section 6.1): the generator and the receiver against the IPsec implementation of
 # the Linux kernel on stoi, tunnel mode, AES-256-GCM, four SAs, 10000 packets per second and SA, 5 s per run.
 #   generator -> kernel:  ipsec-gen on pact sends, the kernel of stoi decrypts       (interop/kernel-rx.sh)
 #   kernel -> receiver:   the kernel of stoi encrypts, ipsec-sink on pact decrypts   (interop/kernel-tx.sh)
