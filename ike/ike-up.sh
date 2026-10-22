@@ -3,7 +3,7 @@
 # (IKEv2, see ike-setup.sh), writes the SAs of both directions to /root/sas.txt on both nodes and stops strongSwan
 # again. Every MoonGen script then uses them with "--sa-file /root/sas.txt" instead of the fixed test SAs, e.g.
 #   ./ipsec.sh 8 8 60 30 "--sa-file /root/sas.txt"            (ipsec-gen on pact -> ipsec-sink on stoi)
-#   ./trxq.sh 8 8 40 30 60 --sa-file /root/sas.txt            (ipsec-transceiver on both nodes)
+#   ./transceiver.sh 8 8 40 30 60 --sa-file /root/sas.txt            (ipsec-transceiver on both nodes)
 # KEEP=1 leaves strongSwan running: needed when the peer of the MoonGen script holds the SAs itself (kernel, DUT),
 # because stopping strongSwan deletes them there; stop it with ike-down.sh after the run. Such a peer also needs
 # new SAs for every run: the senders start with sequence number 1 again, which it rejects as replay.

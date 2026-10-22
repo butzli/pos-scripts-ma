@@ -11,6 +11,8 @@ if [ -n "$IKE" ]; then
 	SA="--sa-file /root/sas.txt"; SEL="list src 192.168.1.1"
 else
 	ssh stoi "N=$N ESN=$ESN ${K:+KEY=$K} bash -s" < kernel-tx-setup.sh > /dev/null
+	# the tunnel address of pact, so that its kernel answers the ARP requests of stoi (with IKE=1, ike-setup.sh sets it)
+	ssh pact "ip addr replace 192.168.0.1/24 dev ens4f1np1"
 	SA="--sas $N --tunnel-src 192.168.1.1 --tunnel-dst 192.168.0.1 ${ESN:+--esn}"; SEL=
 fi
 ssh stoi "cat > /root/udp-send.py" < udp-send.py

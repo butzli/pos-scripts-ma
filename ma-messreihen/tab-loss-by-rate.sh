@@ -21,7 +21,7 @@ for r in $RATES; do
 		sent=$(f "$o" 'packets sent: \K[0-9]+'); ok=$(f "$o" 'Total: received [0-9]+, decrypted\+authenticated \K[0-9]+')
 		echo "uni $T/$R ${D}s $XG $XS requested $r Mpps: achieved $(f "$o" 'packets sent: [0-9]+, rate \K[0-9.]+') Mpps, sent $sent, decrypted $ok, lost $((sent - ok)), rate warnings $(echo "$o" | grep -c 'reached only')"
 	else
-		o=$(OUT=${RAW:-/dev/null} ./trxq.sh $T $R $r $D 60 $XG | head -1)
+		o=$(OUT=${RAW:-/dev/null} ./transceiver.sh $T $R $r $D 60 $XG | head -1)
 		p=${o#*| pact }; p=${p%%|*}; s=${o##*| stoi }
 		ps=$(f "$p" 'sent=\K[0-9]+'); pr=$(f "$p" 'ok=\K[0-9]+'); ss=$(f "$s" 'sent=\K[0-9]+'); sr=$(f "$s" 'ok=\K[0-9]+')
 		echo "bidi $T/$R ${D}s $XG requested $r Mpps: achieved $(f "$p" 'rate=\K[0-9.]+') / $(f "$s" 'rate=\K[0-9.]+') Mpps, sent $ps / $ss, lost on pact $((ss - pr)), lost on stoi $((ps - sr)), rate warnings $(f "$p" 'warn=\K[0-9]+') / $(f "$s" 'warn=\K[0-9]+')"
