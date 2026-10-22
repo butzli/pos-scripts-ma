@@ -49,4 +49,5 @@ All four programs (`ipsec-gen`, `ipsec-sink`, `plain-gen`, `plain-sink`, and the
 | `tab-cleartext-send-rate.sh` | Table 5, `tab:cleartext-send-rate` (Figure 8) | 6.1 | cleartext generator: send rate by number of cores and share received |
 | `tab-esp-send-rate.sh` | Table 6, `tab:esp-send-rate` (Figures 8 and 9) | 6.1 | ESP send rate by number of cores and packet size |
 | `tab-loss-by-rate.sh` | Table 7, `tab:loss-by-rate` | 6.1 | highest rate without loss, one direction and bidirectional |
+| `tab-loss-by-rate-steps.sh` | Table 7, `tab:loss-by-rate` | 6.1 | bidirectional limit by stepping down: up to 10 runs per rate, confirmed one step below (calls `tab-loss-by-rate.sh`) |
 | `tab-sa-queue-distribution.sh` | Table 8, `tab:sa-queue-distribution` | 6.1 | SAs assigned by RSS and by flow rules |
