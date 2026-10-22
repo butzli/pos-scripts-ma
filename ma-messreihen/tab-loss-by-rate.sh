@@ -1,10 +1,15 @@
 #!/bin/bash
 # Reproduces Table "tab:loss-by-rate" (Section 6.1): loss of the measurement chain by offered rate, IPsec, tunnel mode, AES-256-GCM, 60-byte inner packets,
 # flow control and transparent huge pages off (standard setup).
+# The run scripts rotate the performance counters of the transmit cores at the start (pmu-rotate.sh), as in the thesis.
 #   tab-loss-by-rate.sh uni  TXCORES RXCORES "RATES" [SECS] ["GEN-ARGS"] ["SINK-ARGS"]   ipsec-gen on pact -> ipsec-sink on stoi
 #   tab-loss-by-rate.sh bidi TXCORES RXCORES "RATES" [SECS] ["ARGS"]       ipsec-transceiver on both nodes, RATE per direction
 # RATES in Mpps, e.g. "40 60 80". The loss is the number of packets sent minus the number decrypted by the peer,
 # so it includes packets dropped in the receive buffer of the NIC, which the DPDK counter imissed does not show.
+# The rows of the table, each made nine times (70 Mpps in one direction with eight cores: three times); a row gives
+# the highest rate without loss in all runs and the range of the packets lost at the next rate:
+#   tab-loss-by-rate.sh uni 8 8 "70 75";   tab-loss-by-rate.sh uni 16 16 "80 85"
+#   tab-loss-by-rate.sh bidi 8 8 "65 70";  tab-loss-by-rate.sh bidi 12 12 "80 85";  tab-loss-by-rate.sh bidi 15 15 "80 85"
 # Run on coinbase in ~/pos-scripts after ./setup/testbed-setup.sh setup. RAW=file appends the output of all runs to file.
 cd ~/pos-scripts
 MODE=$1; T=$2; R=$3; RATES=$4; D=${5:-30}; XG=$6; XS=$7

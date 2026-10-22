@@ -11,6 +11,7 @@ They target the nodes `pact` and `stoi`. Copy the folder to `~/pos-scripts` on t
 | `prun.sh NODE FILE` | run a script file on a node and print its output |
 | `ipsec.sh`, `cleartext.sh` | one run in one direction, `pact` → `stoi`, with and without ESP |
 | `trxq.sh` | one bidirectional run, one result line with the loss per node (`trxnode-body.sh` is its part that runs on the node) |
+| `pmu-rotate.sh` | start-up rotation of the performance counters, used by `ipsec.sh` and `trxq.sh`: briefly reprograms the performance counters of the reserved cores after the first packets, which lifts the IPsec generator to its upper send level; `PMU_ROTATE=0` in front of the call leaves it out |
 | `ike/` | key exchange by IKEv2 (strongSwan) instead of the fixed test SAs, see below |
 | `interop/` | tests against the IPsec implementation of the Linux kernel, see below |
 | `ma-messreihen/` | measurement series behind the tables of the thesis |
@@ -21,6 +22,10 @@ The run scripts use fixed test SAs (SPI 1000 + i, one well-known key). Two switc
 |---|---|
 | `IKE=1` in front of the call | the SAs are negotiated by strongSwan before the run (`ike/ike-up.sh`), always with extended sequence numbers (ESN) |
 | `--esn` as extra argument (`ESN=1` for `interop/`) | the fixed test SAs with ESN |
+
+| Switch for `trxq.sh` | Effect |
+|---|---|
+| `CLEARTEXT=pact`, `stoi` or `both` in front of the call | that node runs `plain-transceiver.lua` (cleartext UDP) instead of `ipsec-transceiver.lua`; `both` is a cleartext run between the nodes, a single node is the cleartext side of a device in between that en- and decrypts. In the result line, `ok` counts packets with the payload of `plain-gen`, `recv` also those without it (e.g. the decrypted traffic of `ipsec-gen`) |
 
 | Script in `ike/` | Purpose |
 |---|---|
@@ -39,7 +44,7 @@ The run scripts use fixed test SAs (SPI 1000 + i, one well-known key). Two switc
 | `tab-rx-descs.sh` | none, figures in the text after Table 1 | 5.3 | rate taken at full load with 512 and with 4,096 descriptors per receive queue |
 | `tab-rx-path.sh` | Table 2, `tab:rx-path` | 5.3 | decrypted rate by receive configuration |
 | `tab-interop.sh` | Table 3, `tab:interop` | 6.1 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
-| `tab-loss-by-rate.sh` | Table 4, `tab:loss-by-rate` | 6.1 | highest rate without loss, one direction and bidirectional |
-| `tab-sa-queue-distribution.sh` | Table 5, `tab:sa-queue-distribution` | 6.1 | SAs assigned by RSS and by flow rules |
-| `tab-sender-scaling.sh` | Table 7, `tab:sender-scaling` (Figure 7) | 6.1, data in A.4 | send rate by number of cores, no encryption |
-| `tab-esp-send-rate.sh` | Table 8, `tab:esp-send-rate` (Figures 7 and 8) | 6.1, data in A.4 | ESP send rate by number of cores and packet size |
+| `tab-cleartext-send-rate.sh` | Table 4, `tab:cleartext-send-rate` (Figure 8) | 6.1 | cleartext generator: send rate by number of cores and share received |
+| `tab-esp-send-rate.sh` | Table 5, `tab:esp-send-rate` (Figures 8 and 9) | 6.1 | ESP send rate by number of cores and packet size |
+| `tab-loss-by-rate.sh` | Table 6, `tab:loss-by-rate` | 6.1 | highest rate without loss, one direction and bidirectional |
+| `tab-sa-queue-distribution.sh` | Table 7, `tab:sa-queue-distribution` | 6.1 | SAs assigned by RSS and by flow rules |

@@ -1,8 +1,9 @@
 #!/bin/bash
-# usage: [IKE=1] ipsec.sh TXCORES RXCORES [SIZE] [SECS] [EXTRA-ARGS-BOTH] [EXTRA-ARGS-SINK] [EXTRA-ARGS-GEN]   ipsec-gen on pact port 1 -> ipsec-sink on stoi port 1
+# usage: [IKE=1] [PMU_ROTATE=0] ipsec.sh TXCORES RXCORES [SIZE] [SECS] [EXTRA-ARGS-BOTH] [EXTRA-ARGS-SINK] [EXTRA-ARGS-GEN]   ipsec-gen on pact port 1 -> ipsec-sink on stoi port 1
 cd ~/pos-scripts
 T=${1:-4}; R=${2:-4}; S=${3:-60}; D=${4:-8}; X=$5; XS=$6; XG=$7
 # IKE=1: SAs negotiated by strongSwan (ike/ike-up.sh) instead of the fixed test SAs
+# PMU_ROTATE=0: without the start-up rotation of the performance counters (pmu-rotate.sh)
 [ -z "$IKE" ] || { bash ike/ike-up.sh $T; X="$X --sa-file /root/sas.txt"; }
 cat > ipsec-sink.sh <<E2
 #!/bin/bash
@@ -13,6 +14,8 @@ echo SINK-DONE
 E2
 cat > ipsec-gen.sh <<E2
 #!/bin/bash
+$(cat pmu-rotate.sh)
+rm -f /root/gen.log; [ "${PMU_ROTATE:-1}" = 0 ] || pmurotate /root/gen.log &
 cd /root/MoonGen && ./build/MoonGen examples/ipsec/ipsec-gen.lua 1 -c $T -s $S -t $D $X $XG > /root/gen.log 2>&1
 grep -E "INFO.*(Core|Encryption)|FATAL|ERROR|WARN|rror" /root/gen.log | cut -c1-220
 grep -E "total" /root/gen.log | cut -c1-220

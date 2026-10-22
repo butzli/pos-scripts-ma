@@ -6,9 +6,9 @@ cd /root
 
 # mlx5 PMD needs libibverbs/libmlx5 at build time, otherwise DPDK silently builds without it
 # ("Found 0 usable devices"). libipsec-mb-dev makes DPDK build the software AES-GCM crypto driver
-# used by the IPsec scripts. ethtool is not part of the image.
+# used by the IPsec scripts. ethtool and perf (for pmu-rotate.sh) are not part of the image.
 apt-get update -q
-apt-get install -y -q libibverbs-dev libipsec-mb-dev ethtool
+apt-get install -y -q libibverbs-dev libipsec-mb-dev ethtool linux-perf
 
 git clone -q --recursive --branch v25.11 https://github.com/butzli/MoonGen.git
 cd MoonGen
