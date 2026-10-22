@@ -13,10 +13,6 @@ apt-get install -y -q libibverbs-dev libipsec-mb-dev ethtool linux-perf
 git clone -q --recursive --branch v25.11 https://github.com/butzli/MoonGen.git
 cd MoonGen
 
-# moongen-simple refuses rx-only flows ("No valid flows remaining"); allow them so the
-# receiving node can count a flow. No-op once the fix is in the fork.
-sed -i 's/if #loadThread.flows == 0 then--and #countThread.flows == 0 then/if #loadThread.flows == 0 and #countThread.flows == 0 then/' interface/init.lua
-
 # --noBind: ConnectX (mlx5, bifurcated) needs no vfio binding. The binding step would also
 # bind the Intel DSA accelerator (0000:f2:01.0, drv=idxd) to vfio-pci, which hangs in the
 # kernel (D state) and makes the node unusable until reset.
