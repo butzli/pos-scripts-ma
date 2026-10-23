@@ -42,12 +42,12 @@ All four programs (`ipsec-gen`, `ipsec-sink`, `plain-gen`, `plain-sink`, and the
 
 | Script in `ma-messreihen/` | Table in the thesis | Section | Content |
 |---|---|---|---|
-| `tab-receiver-loss.sh` | Table 2, `tab:receiver-loss` | 5.3 | receiver loss with and without reserved cores, 4,096 descriptors and gradual start |
-| `tab-rx-descs.sh` | none, figures in the text after Table 2 | 5.3 | rate taken at full load with 512 and with 4,096 descriptors per receive queue |
-| `tab-rx-path.sh` | Table 3, `tab:rx-path` | 5.3 | decrypted rate by receive configuration |
-| `tab-interop.sh` | Table 4, `tab:interop` | 6.1 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
-| `tab-cleartext-send-rate.sh` | Table 5, `tab:cleartext-send-rate` (Figure 8a) | 6.1 | cleartext generator: send rate by number of cores and share received |
-| `tab-esp-send-rate.sh` | Table 6, `tab:esp-send-rate` (Figure 8) | 6.1 | ESP send rate by number of cores and packet size |
-| `tab-loss-by-rate.sh` | Table 7, `tab:loss-by-rate` | 6.1 | runs without loss by rate; the one-direction rows, and single bidirectional rates |
-| `tab-loss-by-rate-steps.sh` | Table 7 (both-directions rows), Figure 9, `fig:loss-steps` | 6.1 | bidirectional limit by stepping down: up to 10 runs per rate, confirmed one step below (calls `tab-loss-by-rate.sh`) |
-| `tab-sa-queue-distribution.sh` | Table 8, `tab:sa-queue-distribution` | 6.1 | SAs assigned by RSS and by flow rules |
+| `tab-sa-queue-distribution.sh` | Table 2, `tab:sa-queue-distribution` | 5.1 | SAs assigned by RSS and by flow rules |
+| `tab-receiver-loss.sh` | Table 3, `tab:receiver-loss` | 5.3 | receiver loss with and without reserved cores, 4,096 descriptors and gradual start |
+| `tab-rx-descs.sh` | none, figures in the text after Table 3 | 5.3 | rate taken at full load with 512 and with 4,096 descriptors per receive queue |
+| `tab-rx-path.sh` | Table 4, `tab:rx-path` | 5.3 | decrypted rate by receive configuration |
+| `tab-interop.sh` | Table 5, `tab:interop` | 6.1 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
+| `tab-cleartext-send-rate.sh` | Table 6, `tab:cleartext-send-rate` (Figure 8a) | 6.1 | cleartext generator: send rate by number of cores and share received |
+| `tab-esp-send-rate.sh` | Table 7, `tab:esp-send-rate` (Figure 8) | 6.1 | ESP send rate by number of cores and packet size |
+| `tab-loss-by-rate.sh` | single runs and long runs, operating point | 6.1 | runs by rate in both directions (also one direction); a rate repeated in RATES gives the long runs |
+| `tab-loss-by-rate-steps.sh` | Table 8, `tab:loss-by-rate`, Figure 9, `fig:loss-steps` | 6.1 | bidirectional limit by stepping down: up to 10 runs per rate, confirmed one step below (calls `tab-loss-by-rate.sh`) |
