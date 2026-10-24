@@ -13,7 +13,7 @@
 #                                                              81 to 84 Mpps 50 runs, 85 Mpps 25, 86 Mpps 3)
 # Run on coinbase in ~/pos-scripts after ./setup/testbed-setup.sh setup. RAW=file appends the output of all runs to file.
 cd ~/pos-scripts
-MODE=$1; T=$2; R=$3; RATES=$4; D=${5:-30}; XG=$6; XS=$7
+MODE=$1; T=$2; R=$3; RATES=$4; D=${5:-60}; XG=$6; XS=$7
 f() { echo "$1" | grep -oP "$2" | head -1; }
 for r in $RATES; do
 	if [ "$MODE" = uni ]; then
@@ -25,6 +25,11 @@ for r in $RATES; do
 		o=$(OUT=${RAW:-/dev/null} ./transceiver.sh $T $R $r $D ${SIZE:-60} $XG | head -1)
 		p=${o#*| pact }; p=${p%%|*}; s=${o##*| stoi }
 		ps=$(f "$p" 'sent=\K[0-9]+'); pr=$(f "$p" 'ok=\K[0-9]+'); ss=$(f "$s" 'sent=\K[0-9]+'); sr=$(f "$s" 'ok=\K[0-9]+')
-		echo "bidi $T/$R ${D}s ${SIZE:-60}B $XG requested $r Mpps: achieved $(f "$p" 'rate=\K[0-9.]+') / $(f "$s" 'rate=\K[0-9.]+') Mpps, sent $ps / $ss, lost on pact $((ss - pr)), lost on stoi $((ps - sr)), rate warnings $(f "$p" 'warn=\K[0-9]+') / $(f "$s" 'warn=\K[0-9]+')"
+		# unaccounted: lost on a node minus what its own counters explain (full receive queue, discard in the
+		# receive buffer of the NIC) minus what the link lost (transmitted by the peer's port, not received by its own)
+		ua() { echo $(( $1 - ${2:-0} - ${3:-0} - ($4 - $5) )); }
+		up=$(ua $((ss - pr)) "$(f "$p" 'drop=\K[0-9]+')" "$(f "$p" 'rx_prio0_buf_discard=\K[0-9]+')" "$(f "$s" 'txphy=\K[0-9]+')" "$(f "$p" 'rxphy=\K[0-9]+')")
+		us=$(ua $((ps - sr)) "$(f "$s" 'drop=\K[0-9]+')" "$(f "$s" 'rx_prio0_buf_discard=\K[0-9]+')" "$(f "$p" 'txphy=\K[0-9]+')" "$(f "$s" 'rxphy=\K[0-9]+')")
+		echo "bidi $T/$R ${D}s ${SIZE:-60}B $XG requested $r Mpps: achieved $(f "$p" 'rate=\K[0-9.]+') / $(f "$s" 'rate=\K[0-9.]+') Mpps, sent $ps / $ss, lost on pact $((ss - pr)), lost on stoi $((ps - sr)), rate warnings $(f "$p" 'warn=\K[0-9]+') / $(f "$s" 'warn=\K[0-9]+'), unaccounted $up / $us"
 	fi
 done
