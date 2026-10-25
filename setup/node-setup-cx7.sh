@@ -19,8 +19,9 @@ cd MoonGen
 ./build.sh --noBind > /root/build.log 2>&1
 
 ./setup-hugetlbfs.sh
-# 2048 huge pages (4 GB) instead of the 512 of setup-hugetlbfs.sh: every receive queue creates all inbound SAs, and
-# 15 queues with 2048 SAs each (the SA count of the genua DUT) do not fit into 1 GB
+# 2048 huge pages (4 GB) instead of the 512 of setup-hugetlbfs.sh: with 15 transmit and 15 receive cores the packet
+# buffer pools nearly fill 1 GB, and every receive queue creates all inbound SAs (about 2 KB each with the crypto
+# session), so 2048 SAs (the SA count of the genua DUT) no longer fit
 echo 2048 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages
 
 # DPDK config, found by MoonGen when started in this directory: the crypto device for the IPsec
