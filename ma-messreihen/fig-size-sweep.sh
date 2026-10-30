@@ -1,7 +1,7 @@
 #!/bin/bash
 # Loss of the measurement chain by size of the inner packet (Figure "fig:size-sweep"): N bidi runs of 60 s with T
 # transmit and T receive cores per node at R Mpps in each direction per inner packet size, from 60 bytes in steps of 4,
-# otherwise as in tab-loss-by-rate.sh. Stops after three sizes in a row in which every run lost at least 1 % on the
+# otherwise as in trial-loss-by-rate.sh. Stops after three sizes in a row in which every run lost at least 1 % on the
 # worse node, or at 192 bytes (where 95 Mpps fill the 200 Gbit/s link).
 #   fig-size-sweep.sh [R] [T] [N]       default: 95 Mpps, 15/15 cores, 3 runs per size
 # One line per run in LOG (default ~/diag/size-sweep.log) with the loss on each node as a share of the packets the
@@ -13,7 +13,7 @@ echo "== $(date '+%F %T') start $T/$T at $R Mpps, $N runs per size, sizes from 6
 for s in $(seq 60 4 192); do
 	allbad=1
 	for k in $(seq $N); do
-		o=$(SIZE=$s RAW=$RAW bash ma-messreihen/tab-loss-by-rate.sh bidi $T $T $R 60 2>&1 | tail -1)
+		o=$(SIZE=$s RAW=$RAW bash ma-messreihen/trial-loss-by-rate.sh bidi $T $T $R 60 2>&1 | tail -1)
 		sp=$(echo "$o" | grep -oP 'sent \K[0-9]+'); ss=$(echo "$o" | grep -oP 'sent [0-9]+ / \K[0-9]+')
 		lp=$(echo "$o" | grep -oP 'lost on pact \K-?[0-9]+'); ls=$(echo "$o" | grep -oP 'lost on stoi \K-?[0-9]+')
 		if [ -z "$sp" ] || [ -z "$ss" ] || [ -z "$lp" ] || [ -z "$ls" ]; then echo "== $(date '+%F %T') size $s run $k: no result, stopping: $o" >> $L; exit 1; fi

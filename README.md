@@ -49,5 +49,5 @@ All four programs (`ipsec-gen`, `ipsec-sink`, `plain-gen`, `plain-sink`, and the
 | `tab-interop.sh` | Table 5, `tab:interop` | 6.1 | generator and receiver against the Linux kernel, derived SAs, ESN and IKE |
 | `tab-cleartext-send-rate.sh` | Table 6, `tab:cleartext-send-rate` (Figure 8a) | 6.1 | cleartext generator: send rate by number of cores and share received |
 | `tab-esp-send-rate.sh` | Table 7, `tab:esp-send-rate` (Figure 8) | 6.1 | ESP send rate by number of cores and packet size |
-| `tab-loss-by-rate.sh` | single runs and long runs, operating point | 6.1 | runs by rate in both directions (also one direction); a rate repeated in RATES gives the long runs |
-| `tab-loss-by-rate-steps.sh` | Table 8, `tab:loss-by-rate`, Figure 9, `fig:loss-steps` | 6.1 | bidirectional limit by stepping down: up to 10 runs per rate, confirmed one step below (calls `tab-loss-by-rate.sh`) |
+| `trial-loss-by-rate.sh` | helper, no table of its own | 6.1 | single runs by rate in both directions (also one direction); called by `tab-loss-by-rate.sh` and `fig-size-sweep.sh` |
+| `tab-loss-by-rate.sh` | `tab:loss-by-rate`, `fig:loss-steps` | 6.1 | operating point in both directions: load classification after RFC 9971 with three search goals (calls `trial-loss-by-rate.sh`) |
